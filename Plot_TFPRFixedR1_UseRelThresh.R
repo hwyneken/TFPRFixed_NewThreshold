@@ -5,6 +5,27 @@ require(scales)
 require(tidyr)
 
 
+################ Create Plots for the TFPRFixed Simple Simulation
+################################################################
+
+### Input
+# 9 objects from the simulation
+#   the actual effect sizes, severity scores and bayes factors
+# for each of the three methods
+#   the true positive and false positive rate results
+
+### Output
+# 3 plots
+# the first two show the simulation details
+# plot1: show the severity scores against the effect size
+#   for each level of clinical significance
+# plot2: show the log bayes factors against the effect size
+#   for each level of clinical significance
+# plot3: compare the True Positive/False Positive Rates for 
+#   each method at each level of clinical significance
+
+
+
 Perc <-  0.5 #seq (0, 0.75, 0.25)
 nRep <- 2000 # needs to be divisible by 4 
 nTrial <- 5
@@ -17,6 +38,13 @@ EffectSizes <- readRDS(file = "sim_data/EffectPoint0.RDS")
 EffectSizes <- as.numeric(EffectSizes)
 sevScoresArray <- readRDS(file = "sim_data/sevTop2Array.RDS")
 bfArray <- readRDS(file = "sim_data/BFPoint0t5.RDS")
+
+pvalueTP <- readRDS(file = "sim_data/pvalueTP.RDS")
+pvalueFP <- readRDS(file = "sim_data/pvalueFP.RDS")
+sevTop2TP <- readRDS(file=  "sim_data/sevTop2Hit.RDS")
+sevTop2FP <- readRDS(file = "sim_data/sevTop2FA.RDS")
+bfTP <- readRDS(file = "sim_data/bfTP.RDS")
+bfFP <- readRDS(file = "sim_data/bfFP.RDS")
 
 
 ### reorganize data
@@ -83,12 +111,7 @@ ggsave(plot2,file="images/BFVsEffectSize.png",units="in",
 
 ### Step 3 - create overall TP and FP rate graph
 
-pvalueTP <- readRDS(file = "sim_data/pvalueTP.RDS")
-pvalueFP <- readRDS(file = "sim_data/pvalueFP.RDS")
-sevTop2TP <- readRDS(file=  "sim_data/sevTop2Hit.RDS")
-sevTop2FP <- readRDS(file = "sim_data/sevTop2FA.RDS")
-bfTP <- readRDS(file = "sim_data/bfTP.RDS")
-bfFP <- readRDS(file = "sim_data/bfFP.RDS")
+
 
 ## collapse into numeric vector
 pvalueTP <- apply(pvalueTP,3,getFirst)
